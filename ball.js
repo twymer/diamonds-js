@@ -42,7 +42,7 @@ Crafty.c('Ball', {
   },
 
   ball: function () {
-    this.speed = 170 / 60;
+    this.speed = 4;
 
     return this.attr({
       vel: {
