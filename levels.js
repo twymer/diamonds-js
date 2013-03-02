@@ -26,7 +26,18 @@ function levelOne () {
           .color(color)
           .attr({w: blockWidth-2, h: blockHeight-2, x: (blockWidth)*j+1, y: (blockHeight)*i+1});
       } else {
-        Crafty.e("Brick, 2D, Canvas, Color")
+        var typeName = ''
+        // TODO: need to redo the way brick types are handled, hacking this for now
+        // when brick sprites are in one file I can hit them by index too so wouldn't
+        // need this
+        for (var k = 0; k < Object.keys(brickTypes).length; k++) {
+          if (brickTypes[Object.keys(brickTypes)[k]] === brickType) {
+            typeName = Object.keys(brickTypes)[k];
+            break;
+          }
+        }
+
+        Crafty.e("Brick, 2D, Canvas, Color, " + typeName)
           .color(color)
           .attr({w: blockWidth-2, h: blockHeight-2, x: (blockWidth)*j+1, y: (blockHeight)*i+1})
           .brick(brickType);

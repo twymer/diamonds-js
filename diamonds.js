@@ -16,11 +16,11 @@ var brickTypes = {
 
 var brickColors = [
   "#333",
-  "#2f9cfb",
-  "#0002c0",
-  "#06a407",
-  "#663200",
-  "#9e00c4",
+  "#B1C0D2", // 'ltblue'
+  "#587498", // 'blue'
+  "#FFD800", // 'green'
+  "#587058", // 'brown'
+  "#E86850", // 'pink'
   "#ff0000",
   "#ff0000",
   "#ff0000",
@@ -40,6 +40,9 @@ window.onload = function () {
 
   Crafty.init(12 * blockWidth, 12 * blockHeight);
 
+  defineSprites();
+
+  Crafty.scene("loading");
 
   Crafty.scene("main", function () {
     Crafty.background("#222");
@@ -51,6 +54,4 @@ window.onload = function () {
       .attr({w: ballSize, h: ballSize, x: 1.5*blockWidth, y: 6*blockHeight})
       .ball();
   });
-
-  Crafty.scene("main");
 };
