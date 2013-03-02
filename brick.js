@@ -1,6 +1,13 @@
 function brickIsPaddle (type) {
-  console.log(type);
   return (type > 5 && type < 10);
+}
+
+function brickIsDiamond (type) {
+  return type == 11;
+}
+
+function brickIsNormal (type) {
+  return (type > 0 && type < 6);
 }
 
 function onBrickHit (ball) {
@@ -9,6 +16,14 @@ function onBrickHit (ball) {
   } else if (brickIsPaddle(this.type)) {
     // shift type down to change to proper color
     ball.color(brickColors[this.type - 4]);
+  } else if (brickIsDiamond(this.type)) {
+    var brickIds = Crafty("Brick")
+    for (var i = 0; i < brickIds.length; i++) {
+      if (brickIsNormal(Crafty(brickIds[i]).type)) {
+        return;
+      }
+    }
+    this.destroy();
   }
 }
 
