@@ -8,6 +8,8 @@ Crafty.c('Ball', {
 
     var brick = hit.obj;
 
+    brick.onHit(this);
+
     var dy = brick.y - this.y;
     if (this.centerY < brick.centerY) {
       dy -= this.h;
@@ -50,7 +52,11 @@ Crafty.c('Ball', {
     })
     .bind('EnterFrame', this._enterFrame)
     .bind('Moved', function (from) {
-      if (this.hit('Brick') || this.x < 0 || this.x + ballSize > maxHorizontalBlocks * blockWidth) {
+      brick = this.hit('Brick')[0];
+      if (brick || this.x < 0 || this.x + ballSize > maxHorizontalBlocks * blockWidth) {
+        if (brick) {
+          brick.obj.onHit(this);
+        }
         this.attr({x: from.x});
       }
     });
