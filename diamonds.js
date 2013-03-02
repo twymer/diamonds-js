@@ -48,7 +48,7 @@ window.onload = function () {
     Crafty.e("Ball, 2D, Canvas, Color, Collision, Edges, BallControls")
       .ballControls(1)
       .color(brickColors[brickTypes.ltblue])
-      .attr({w: ballSize, h: ballSize, x: 3*blockWidth, y: 1*blockHeight})
+      .attr({w: ballSize, h: ballSize, x: 1.5*blockWidth, y: 6*blockHeight})
       .ball();
   });
 
