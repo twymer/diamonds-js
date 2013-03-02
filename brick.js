@@ -10,12 +10,24 @@ function brickIsNormal (type) {
   return (type > 0 && type < 6);
 }
 
+function brickIsDeath (type) {
+  return type == 12;
+}
+
 function onBrickHit (ball) {
   if (ball.color() === this.color()) {
     this.destroy();
   } else if (brickIsPaddle(this.type)) {
     // shift type down to change to proper color
     ball.color(brickColors[this.type - 4]);
+  } else if (brickIsDeath(this.type)) {
+    // TODO: need a cleaner way to do this
+    Crafty(Crafty("Ball")[0]).destroy();
+    Crafty.e("Ball, 2D, Canvas, Color, Collision, Edges, BallControls")
+      .ballControls(1)
+      .color(brickColors[brickTypes.ltblue])
+      .attr({w: ballSize, h: ballSize, x: 3*blockWidth, y: 1*blockHeight})
+      .ball();
   } else if (brickIsDiamond(this.type)) {
     var brickIds = Crafty("Brick")
     for (var i = 0; i < brickIds.length; i++) {
