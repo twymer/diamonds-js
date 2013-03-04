@@ -23,13 +23,22 @@ function onBrickHit (ball) {
   } else if (brickIsDeath(this.type)) {
     game.resetBall();
   } else if (brickIsDiamond(this.type)) {
-    var brickIds = Crafty("Brick")
+    var brickIds = Crafty("Brick");
+    var diamondCount = 0;
+
     for (var i = 0; i < brickIds.length; i++) {
       if (brickIsNormal(Crafty(brickIds[i]).type)) {
         return;
       }
+      if (brickIsDiamond(Crafty(brickIds[i]).type)) {
+        diamondCount++;
+      }
     }
+
     this.destroy();
+    if (diamondCount <= 1) {
+      game.gameWon();
+    }
   }
 }
 
