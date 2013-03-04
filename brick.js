@@ -21,6 +21,7 @@ function onBrickHit (ball) {
     // shift type down to change to proper color
     ball.color(brickColors[this.type - 4]);
   } else if (brickIsDeath(this.type)) {
+    game.resetBall();
   } else if (brickIsDiamond(this.type)) {
     var brickIds = Crafty("Brick")
     for (var i = 0; i < brickIds.length; i++) {
