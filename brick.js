@@ -21,13 +21,6 @@ function onBrickHit (ball) {
     // shift type down to change to proper color
     ball.color(brickColors[this.type - 4]);
   } else if (brickIsDeath(this.type)) {
-    // TODO: need a cleaner way to do this
-    Crafty(Crafty("Ball")[0]).destroy();
-    Crafty.e("Ball, 2D, Canvas, Color, Collision, Edges, BallControls")
-      .ballControls(1)
-      .color(brickColors[brickTypes.ltblue])
-      .attr({w: ballSize, h: ballSize, x: 1.5*blockWidth, y: 6*blockHeight})
-      .ball();
   } else if (brickIsDiamond(this.type)) {
     var brickIds = Crafty("Brick")
     for (var i = 0; i < brickIds.length; i++) {

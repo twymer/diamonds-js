@@ -23,6 +23,6 @@ Crafty.scene("loading", function () {
   Crafty.load(['assets/diamond.png', 'assets/ltblue.png', 'assets/death.png',
                'assets/bluePaddle.png', 'assets/brownPaddle.png', 'assets/pinkPaddle.png',
                'assets/greenPaddle.png'], function () {
-    Crafty.scene("main");
+    Crafty.scene("game");
   });
 });

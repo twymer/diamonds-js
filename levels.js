@@ -1,4 +1,4 @@
-function levelOne () {
+function createLevel () {
   // This will eventually be packed up better or read from file
   levelOne = [
     'C 0 0 0 0 4 4 0 0 0 0 C',
@@ -6,7 +6,7 @@ function levelOne () {
     '0 0 0 B 3 3 3 3 B 0 0 0',
     '0 8 B 2 2 2 2 2 2 B 6 0',
     '0 A 1 1 0 0 0 0 1 1 A 0',
-    '0 0 0 0 0 B B 0 0 0 0 0',
+    '0 F 0 0 0 B B 0 0 0 0 0',
     '0 0 0 0 0 B B 0 0 0 0 0',
     '0 A 1 1 0 0 0 0 1 1 A 0',
     '0 7 B 3 3 3 3 3 3 B 9 0',
@@ -18,6 +18,13 @@ function levelOne () {
     bricks = levelOne[i].split(' ');
     for (var j = 0; j < bricks.length; j++) {
       brickType = parseInt(bricks[j], 16);
+
+      // If it's the ball, add it and continue as normal
+      if (brickType === 15) {
+        game.addBall(j, i);
+        brickType = 0;
+      }
+
       color = brickColors[brickType];
       if (brickType === 0) {
         // Currently just drawing blank blocks to keep the grid appearance.

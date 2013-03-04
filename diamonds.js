@@ -43,15 +43,4 @@ window.onload = function () {
   defineSprites();
 
   Crafty.scene("loading");
-
-  Crafty.scene("main", function () {
-    Crafty.background("#222");
-
-    levelOne();
-    Crafty.e("Ball, 2D, Canvas, Color, Collision, Edges, BallControls")
-      .ballControls(1)
-      .color(brickColors[brickTypes.ltblue])
-      .attr({w: ballSize, h: ballSize, x: 1.5*blockWidth, y: 6*blockHeight})
-      .ball();
-  });
 };

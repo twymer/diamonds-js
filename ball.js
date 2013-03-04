@@ -1,5 +1,5 @@
 Crafty.c('Ball', {
-  _checkBrickCollision: function () {
+  checkBrickCollision: function () {
     var hit = this.hit('Brick')[0];
 
     if (!hit) {
@@ -21,20 +21,20 @@ Crafty.c('Ball', {
     this.vel.y *= -1;
   },
 
-  _checkOutOfBounds: function () {
+  checkOutOfBounds: function () {
     if (this.y < 0 || this.y + ballSize > maxVerticalBlocks * blockHeight) {
       this.y = this.prevY;
       this.vel.y *= -1;
     }
   },
 
-  _enterFrame: function () {
+  enterFrame: function () {
     this.prevY = this.y;
 
     this.y += this.vel.y;
 
-    this._checkBrickCollision();
-    this._checkOutOfBounds();
+    this.checkBrickCollision();
+    this.checkOutOfBounds();
   },
 
   init: function () {
@@ -50,7 +50,7 @@ Crafty.c('Ball', {
         y: this.speed
       }
     })
-    .bind('EnterFrame', this._enterFrame)
+    .bind('EnterFrame', this.enterFrame)
     .bind('Moved', function (from) {
       brick = this.hit('Brick')[0];
       if (brick || this.x < 0 || this.x + ballSize > maxHorizontalBlocks * blockWidth) {
