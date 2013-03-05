@@ -1,6 +1,7 @@
 function createLevel () {
   // This will eventually be packed up better or read from file
   levelOne = [
+    'Simpleton',
     'C 0 0 0 0 4 4 0 0 0 0 C',
     'A 0 0 0 A 3 3 A 0 0 0 A',
     '0 0 0 B 3 3 3 3 B 0 0 0',
@@ -14,7 +15,9 @@ function createLevel () {
     'A 0 0 0 A 2 2 A 0 0 0 A',
     'C 0 0 0 0 5 5 0 0 0 0 C']
 
-  for (var i = 0; i < levelOne.length; i++) {
+  game.levelInfo.name = levelOne[0]
+
+  for (var i = 1; i < levelOne.length; i++) {
     bricks = levelOne[i].split(' ');
     for (var j = 0; j < bricks.length; j++) {
       brickType = parseInt(bricks[j], 16);
@@ -31,7 +34,8 @@ function createLevel () {
         // This will eventually be an image based backgrond.
         Crafty.e("2D, Canvas, Color")
           .color(color)
-          .attr({w: blockWidth-2, h: blockHeight-2, x: (blockWidth)*j+1, y: (blockHeight)*i+1});
+          .attr({w: blockWidth-2, h: blockHeight-2,
+                 x: (blockWidth)*j+1, y: (blockHeight) * (i - 1) + 1})
       } else {
         var typeName = ''
         // TODO: need to redo the way brick types are handled, hacking this for now
@@ -46,7 +50,8 @@ function createLevel () {
 
         Crafty.e("Brick, 2D, Canvas, Color, " + typeName)
           .color(color)
-          .attr({w: blockWidth-2, h: blockHeight-2, x: (blockWidth)*j+1, y: (blockHeight)*i+1})
+          .attr({w: blockWidth-2, h: blockHeight-2,
+                 x: (blockWidth)*j+1, y: (blockHeight) * (i - 1) + 1})
           .brick(brickType);
       }
     }

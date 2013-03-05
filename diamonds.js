@@ -35,10 +35,11 @@ window.onload = function () {
   blockWidth = 5 * blockScale;
   maxVerticalBlocks = 12;
   maxHorizontalBlocks = 12;
+  hudSize = 50;
 
   ballSize = 14;
 
-  Crafty.init(12 * blockWidth, 12 * blockHeight);
+  Crafty.init(12 * blockWidth, 12 * blockHeight + hudSize);
 
   defineSprites();
 

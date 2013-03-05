@@ -4,7 +4,9 @@ Crafty.scene("game", function () {
   var lives = 3;
   var originalBallLocation = null;
 
-   game.gameOver = function () {
+  game.levelInfo = {name: ''};
+
+  game.gameOver = function () {
     Crafty.e('2D, Canvas, Color')
       .attr({alpha: .8,
              x: 0, y: 0,
@@ -58,9 +60,19 @@ Crafty.scene("game", function () {
     } else {
       game.gameOver();
     }
+    updateUI();
+  }
+
+  ui = Crafty.e('2d, DOM, Text')
+        .attr({x: 15,
+               y: Crafty.stage.elem.clientHeight - 35,
+               w: Crafty.stage.elem.clientWidth - 15})
+
+  function updateUI () {
+    ui.text('Lives: ' + lives + ' | Level: ' + game.levelInfo.name);
   }
 
   Crafty.background("#222");
-
   createLevel();
+  updateUI();
 });
