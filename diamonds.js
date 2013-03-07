@@ -6,10 +6,10 @@ var brickTypes = {
   green: 3,
   brown: 4,
   pink: 5,
-  bluePaddle: 6,
-  greenPaddle: 7,
-  brownPaddle: 8,
-  pinkPaddle: 9,
+  blueBrush: 6,
+  greenBrush: 7,
+  brownBrush: 8,
+  pinkBrush: 9,
   wall: 10,
   diamond: 11,
   death: 12 }
@@ -39,7 +39,7 @@ window.onload = function () {
 
   ballSize = 14;
 
-  Crafty.init(12 * blockWidth, 12 * blockHeight + hudSize);
+  Crafty.init(12 * blockWidth, 12 * blockHeight + hudSize, 60);
 
   defineSprites();
 

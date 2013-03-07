@@ -1,4 +1,4 @@
-function brickIsPaddle (type) {
+function brickIsBrush (type) {
   return (type > 5 && type < 10);
 }
 
@@ -19,7 +19,7 @@ function onBrickHit (ball) {
     this.destroy();
     game.score += 3;
     game.updateUI();
-  } else if (brickIsPaddle(this.type)) {
+  } else if (brickIsBrush(this.type)) {
     // shift type down to change to proper color
     ball.color(brickColors[this.type - 4]);
   } else if (brickIsDeath(this.type)) {
