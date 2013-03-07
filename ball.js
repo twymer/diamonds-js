@@ -42,12 +42,10 @@ Crafty.c('Ball', {
   },
 
   ball: function () {
-    this.speed = 4;
 
     return this.attr({
       vel: {
-        x: this.speed,
-        y: this.speed
+        y: 5
       }
     })
     .bind('EnterFrame', this.enterFrame)
@@ -69,7 +67,7 @@ Crafty.c("BallControls", {
   },
 
   ballControls: function () {
-    this.multiway(170/60, {RIGHT_ARROW: 0, LEFT_ARROW: 180});
+    this.multiway(4, {RIGHT_ARROW: 0, LEFT_ARROW: 180});
     return this;
   }
 });
