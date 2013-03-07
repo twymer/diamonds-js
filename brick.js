@@ -17,11 +17,14 @@ function brickIsDeath (type) {
 function onBrickHit (ball) {
   if (ball.color() === this.color()) {
     this.destroy();
+    game.score += 3;
+    game.updateUI();
   } else if (brickIsPaddle(this.type)) {
     // shift type down to change to proper color
     ball.color(brickColors[this.type - 4]);
   } else if (brickIsDeath(this.type)) {
     game.resetBall();
+    game.updateUI();
   } else if (brickIsDiamond(this.type)) {
     var brickIds = Crafty("Brick");
     var diamondCount = 0;
@@ -35,6 +38,8 @@ function onBrickHit (ball) {
       }
     }
 
+    game.score += 100;
+    game.updateUI();
     this.destroy();
     if (diamondCount <= 1) {
       game.gameWon();

@@ -3,16 +3,28 @@ Crafty.scene("game", function () {
 
   var lives = 3;
   var originalBallLocation = null;
+  var timeBonus = 2000;
+  var timer = null;
 
+  game.score = 0;
   game.levelInfo = {name: ''};
 
+  game.updateUI = function () {
+    ui.text('Lives: ' + lives +
+            ' | Level: ' + game.levelInfo.name +
+            ' | Score: ' + game.score +
+            ' | Time Bonus: ' + timeBonus);
+  }
+
   game.gameOver = function () {
+    clearInterval(timer);
+
     Crafty.e('2D, Canvas, Color')
       .attr({alpha: .8,
              x: 0, y: 0,
              w: Crafty.stage.elem.clientWidth,
              h: Crafty.stage.elem.clientHeight})
-      .color("#000")
+      .color("#000");
     Crafty.e('2D, DOM, Text')
       .attr({x: 0,
              y: (Crafty.stage.elem.clientHeight - 40) / 2,
@@ -20,24 +32,28 @@ Crafty.scene("game", function () {
              h: 100})
       .textColor("#FFF")
       .css('text-align', 'center')
-      .text("You lost! Haha how do you even restart?")
+      .text("You lost! Haha how do you even restart?");
   }
 
   game.gameWon = function () {
+    clearInterval(timer);
+
     Crafty.e('2D, Canvas, Color')
       .attr({alpha: .8,
-             x: 0, y: 0,
+             x: 0, y: 0, z: 10,
              w: Crafty.stage.elem.clientWidth,
              h: Crafty.stage.elem.clientHeight})
-      .color("#000")
+      .color("#000");
     Crafty.e('2D, DOM, Text')
       .attr({x: 0,
              y: (Crafty.stage.elem.clientHeight - 40) / 2,
+             z: 10,
              w: Crafty.stage.elem.clientWidth,
              h: 100})
       .textColor("#FFF")
       .css('text-align', 'center')
-      .text("You win! Now what did I do with the other levels...")
+      .text("You win! Final score is: " + (game.score + timeBonus) +
+            "<br>Now what did I do with the other levels...");
   }
 
   game.addBall = function(xPos, yPos) {
@@ -60,7 +76,7 @@ Crafty.scene("game", function () {
     } else {
       game.gameOver();
     }
-    updateUI();
+    game.updateUI();
   }
 
   ui = Crafty.e('2d, DOM, Text')
@@ -68,11 +84,15 @@ Crafty.scene("game", function () {
                y: Crafty.stage.elem.clientHeight - 35,
                w: Crafty.stage.elem.clientWidth - 15})
 
-  function updateUI () {
-    ui.text('Lives: ' + lives + ' | Level: ' + game.levelInfo.name);
+  function startTimer () {
+    timer = setInterval(function () {
+      timeBonus = Math.max(timeBonus - 10, 0);
+      game.updateUI();
+    }, 400);
   }
 
   Crafty.background("#222");
   createLevel();
-  updateUI();
+  startTimer();
+  game.updateUI();
 });
