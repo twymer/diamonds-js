@@ -51,8 +51,11 @@ Crafty.c('Brick', {
   init: function () {
   },
 
-  brick: function (type) {
+  brick: function (type, x, y) {
     this.type = type;
+    if (x != undefined && y != undefined) {
+      this.board_pos = {x: x, y: y};
+    }
 
     return this.attr({
       onHit: onBrickHit

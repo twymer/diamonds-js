@@ -9,6 +9,11 @@ Crafty.scene("game", function () {
   game.score = 0;
   game.levelInfo = {name: ''};
 
+  ui = Crafty.e('2d, DOM, Text')
+        .attr({x: 15,
+               y: Crafty.stage.elem.clientHeight - 35,
+               w: Crafty.stage.elem.clientWidth - 15})
+
   game.updateUI = function () {
     ui.text('Lives: ' + lives +
             ' | Level: ' + game.levelInfo.name +
@@ -56,20 +61,20 @@ Crafty.scene("game", function () {
             "<br>Now what did I do with the other levels...");
   }
 
-  game.addBall = function(xPos, yPos) {
+  game.addBall = function (xPos, yPos) {
     originalBallLocation = originalBallLocation || [xPos, yPos];
 
     Crafty.e("Ball, 2D, Canvas, Color, Collision, Edges, BallControls")
       .ballControls(1)
       .color(brickColors[brickTypes.ltblue])
       .attr({w: ballSize, h: ballSize,
-             x: (xPos + .5) * blockWidth - ballSize / 2, // center the ball
-             y: (yPos + .5) * blockHeight - ballSize / 2,
+             x: xPos * blockWidth + blockWidth / 2 - ballSize / 2, // center the ball
+             y: yPos * blockHeight - blockHeight / 2 - ballSize / 2,
              z: 10})
       .ball();
   }
 
-  game.resetBall = function() {
+  game.resetBall = function () {
     Crafty(Crafty("Ball")[0]).destroy();
     if (--lives > 0) {
       game.addBall(originalBallLocation[0], originalBallLocation[1]);
@@ -79,10 +84,15 @@ Crafty.scene("game", function () {
     game.updateUI();
   }
 
-  ui = Crafty.e('2d, DOM, Text')
-        .attr({x: 15,
-               y: Crafty.stage.elem.clientHeight - 35,
-               w: Crafty.stage.elem.clientWidth - 15})
+  Crafty.e('Keyboard')
+    .bind('KeyDown', function (e) {
+      if (this.isDown(Crafty.keys.E)) {
+        Crafty.scene('edit');
+      } else if (this.isDown(Crafty.keys.D)) {
+        localStorage.removeItem('diamonds-game-custom-level');
+        Crafty.scene('game');
+      }
+    });
 
   function startTimer () {
     timer = setInterval(function () {
@@ -92,7 +102,12 @@ Crafty.scene("game", function () {
   }
 
   Crafty.background("#222");
-  createLevel();
+
+  var customLevel = null;
+  if (Modernizr.localstorage) {
+    customLevel = localStorage['diamonds-game-custom-level'];
+  }
+  createLevel(customLevel);
   startTimer();
   game.updateUI();
 });

@@ -39,7 +39,7 @@ window.onload = function () {
 
   ballSize = 14;
 
-  Crafty.init(12 * blockWidth, 12 * blockHeight + hudSize, 60);
+  Crafty.init(12 * blockWidth, 12 * blockHeight + hudSize);
 
   defineSprites();
 
