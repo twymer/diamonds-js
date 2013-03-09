@@ -106,6 +106,9 @@ Crafty.scene("game", function () {
   var customLevel = null;
   if (Modernizr.localstorage) {
     customLevel = localStorage['diamonds-game-custom-level'];
+    if (customLevel) {
+      document.getElementById('level-string').innerHTML = customLevel;
+    }
   }
   createLevel(customLevel);
   startTimer();
