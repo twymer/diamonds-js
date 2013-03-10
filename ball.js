@@ -42,7 +42,6 @@ Crafty.c('Ball', {
   },
 
   ball: function () {
-
     return this.attr({
       vel: {
         y: 5

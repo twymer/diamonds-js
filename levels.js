@@ -81,29 +81,21 @@ function loadLevel (customLevel) {
       }
 
       color = brickColors[brickType];
+      brickAttrs = {w: blockWidth-2, h: blockHeight-2,
+                    x: (blockWidth)*j+1, y: (blockHeight) * (i - 1) + 1};
+
       if (brickType === 0) {
         // Currently just drawing blank blocks to keep the grid appearance.
         // This will eventually be an image based backgrond.
         Crafty.e("2D, Canvas, Color")
           .color(color)
-          .attr({w: blockWidth-2, h: blockHeight-2,
-                 x: (blockWidth)*j+1, y: (blockHeight) * (i - 1) + 1})
+          .attr(brickAttrs)
       } else {
-        var typeName = '';
-        // TODO: need to redo the way brick types are handled, hacking this for now
-        // when brick sprites are in one file I can hit them by index too so wouldn't
-        // need this
-        for (var k = 0; k < Object.keys(brickTypes).length; k++) {
-          if (brickTypes[Object.keys(brickTypes)[k]] === brickType) {
-            typeName = Object.keys(brickTypes)[k];
-            break;
-          }
-        }
+        var typeName = brickTypeName(brickType);
 
         Crafty.e("Brick, 2D, Canvas, Color, " + typeName)
           .color(color)
-          .attr({w: blockWidth-2, h: blockHeight-2,
-                 x: (blockWidth)*j+1, y: (blockHeight) * (i - 1) + 1})
+          .attr(brickAttrs)
           .brick(brickType);
       }
     }

@@ -10,16 +10,8 @@ Crafty.scene("edit", function () {
   }
 
   var clickHandler = function () {
-    var typeName = '';
-    // TODO: need to redo the way brick types are handled, hacking this for now
-    // when brick sprites are in one file I can hit them by index too so wouldn't
-    // need this
-    for (var k = 0; k < Object.keys(brickTypes).length; k++) {
-      if (brickTypes[Object.keys(brickTypes)[k]] === activeType) {
-        typeName = Object.keys(brickTypes)[k];
-        break;
-      }
-    }
+    var typeName = brickTypeName(activeType);
+
     Crafty.e("Brick, 2D, Canvas, Mouse, Color, " + typeName)
       .color(brickColors[activeType])
       .attr({w: blockWidth-2, h: blockHeight-2,
@@ -44,16 +36,7 @@ Crafty.scene("edit", function () {
   }
 
   for (var brickType = 0; brickType < Object.keys(brickTypes).length; brickType++) {
-    var typeName = '';
-    // TODO: need to redo the way brick types are handled, hacking this for now
-    // when brick sprites are in one file I can hit them by index too so wouldn't
-    // need this
-    for (var k = 0; k < Object.keys(brickTypes).length; k++) {
-      if (brickTypes[Object.keys(brickTypes)[k]] === brickType) {
-        typeName = Object.keys(brickTypes)[k];
-        break;
-      }
-    }
+    var typeName = brickTypeName(brickType);
 
     color = brickColors[brickType];
     Crafty.e("Brick, 2D, Canvas, Color, Mouse, Collision, " + typeName)
@@ -88,9 +71,5 @@ Crafty.scene("edit", function () {
         // TODO: Show an error I guess?
         // should have checked this before letting them come to this page
       }
-
-      // Crafty storage has been broken for a while..
-      // Crafty.storage.open("diamonds-game");
-      // Crafty.storage.save("custom-level", "save", window.gameBoard);
     });
 });

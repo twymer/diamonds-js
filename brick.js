@@ -1,3 +1,11 @@
+function brickTypeName (typeValue) {
+    for (var k = 0; k < Object.keys(brickTypes).length; k++) {
+      if (brickTypes[Object.keys(brickTypes)[k]] === typeValue) {
+        return Object.keys(brickTypes)[k];
+      }
+    }
+}
+
 function brickIsBrush (type) {
   return (type > 5 && type < 10);
 }

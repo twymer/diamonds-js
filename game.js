@@ -22,23 +22,31 @@ Crafty.scene("game", function () {
             ' | Time Bonus: ' + timeBonus);
   }
 
-  game.gameOver = function () {
-    clearInterval(timer);
-
+  function drawGreyOverlay() {
     Crafty.e('2D, Canvas, Color')
       .attr({alpha: .8,
-             x: 0, y: 0,
+             x: 0, y: 0, z: 9,
              w: Crafty.stage.elem.clientWidth,
              h: Crafty.stage.elem.clientHeight})
       .color("#000");
+  }
+
+  function renderText(text, attrs) {
     Crafty.e('2D, DOM, Text')
-      .attr({x: 0,
-             y: (Crafty.stage.elem.clientHeight - 40) / 2,
-             w: Crafty.stage.elem.clientWidth,
-             h: 100})
+      .attr(attrs)
       .textColor("#FFF")
       .css('text-align', 'center')
-      .text("You lost! Haha how do you even restart?");
+      .text(text);
+  }
+
+  game.gameOver = function () {
+    clearInterval(timer);
+    drawGreyOverlay();
+
+    renderText("You lost! Haha how do you even restart?",
+               {y: (Crafty.stage.elem.clientHeight - 40) / 2,
+                w: Crafty.stage.elem.clientWidth,
+                h: 100});
   }
 
   game.levelWon = function () {
@@ -52,22 +60,15 @@ Crafty.scene("game", function () {
       startTimer();
       game.updateUI();
     } else {
-      Crafty.e('2D, Canvas, Color')
-        .attr({alpha: .8,
-               x: 0, y: 0, z: 10,
-               w: Crafty.stage.elem.clientWidth,
-               h: Crafty.stage.elem.clientHeight})
-        .color("#000");
-      Crafty.e('2D, DOM, Text')
-        .attr({x: 0,
-               y: (Crafty.stage.elem.clientHeight - 40) / 2,
-               z: 10,
-               w: Crafty.stage.elem.clientWidth,
-               h: 100})
-        .textColor("#FFF")
-        .css('text-align', 'center')
-        .text("You win! Final score is: " + game.score +
-              "<br>Now what did I do with the other levels...");
+      drawGreyOverlay();
+      var text = "You win! Final score is: " + game.score +
+                 "<br>Now what did I do with the other levels...";
+
+      renderText(text, {x: 0,
+                        y: (Crafty.stage.elem.clientHeight - 40) / 2,
+                        z: 10,
+                        w: Crafty.stage.elem.clientWidth,
+                        h: 100});
     }
   }
 
@@ -78,9 +79,10 @@ Crafty.scene("game", function () {
       .ballControls(1)
       .color(brickColors[brickTypes.ltblue])
       .attr({w: ballSize, h: ballSize,
-             x: xPos * blockWidth + blockWidth / 2 - ballSize / 2, // center the ball
+             // center the ball in the assigned brick area
+             x: xPos * blockWidth + blockWidth / 2 - ballSize / 2,
              y: yPos * blockHeight - blockHeight / 2 - ballSize / 2,
-             z: 10})
+             z: 5})
       .ball();
   }
 
