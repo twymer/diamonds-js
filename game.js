@@ -5,6 +5,7 @@ Crafty.scene("game", function () {
   var originalBallLocation = null;
   var timeBonus = 2000;
   var timer = null;
+  game.currentLevelNumber = 0;
 
   game.score = 0;
   game.levelInfo = {name: ''};
@@ -40,29 +41,34 @@ Crafty.scene("game", function () {
       .text("You lost! Haha how do you even restart?");
   }
 
-  game.gameWon = function () {
+  game.levelWon = function () {
     clearInterval(timer);
 
-    Crafty.e('2D, Canvas, Color')
-      .attr({alpha: .8,
-             x: 0, y: 0, z: 10,
-             w: Crafty.stage.elem.clientWidth,
-             h: Crafty.stage.elem.clientHeight})
-      .color("#000");
-    Crafty.e('2D, DOM, Text')
-      .attr({x: 0,
-             y: (Crafty.stage.elem.clientHeight - 40) / 2,
-             z: 10,
-             w: Crafty.stage.elem.clientWidth,
-             h: 100})
-      .textColor("#FFF")
-      .css('text-align', 'center')
-      .text("You win! Final score is: " + (game.score + timeBonus) +
-            "<br>Now what did I do with the other levels...");
+    game.currentLevelNumber++;
+    if (game.currentLevelNumber < levels.length) {
+      loadLevel();
+    } else {
+      Crafty.e('2D, Canvas, Color')
+        .attr({alpha: .8,
+               x: 0, y: 0, z: 10,
+               w: Crafty.stage.elem.clientWidth,
+               h: Crafty.stage.elem.clientHeight})
+        .color("#000");
+      Crafty.e('2D, DOM, Text')
+        .attr({x: 0,
+               y: (Crafty.stage.elem.clientHeight - 40) / 2,
+               z: 10,
+               w: Crafty.stage.elem.clientWidth,
+               h: 100})
+        .textColor("#FFF")
+        .css('text-align', 'center')
+        .text("You win! Final score is: " + (game.score + timeBonus) +
+              "<br>Now what did I do with the other levels...");
+    }
   }
 
   game.addBall = function (xPos, yPos) {
-    originalBallLocation = originalBallLocation || [xPos, yPos];
+    originalBallLocation = [xPos, yPos];
 
     Crafty.e("Ball, 2D, Canvas, Color, Collision, Edges, BallControls")
       .ballControls(1)
@@ -110,7 +116,7 @@ Crafty.scene("game", function () {
       document.getElementById('level-string').innerHTML = customLevel;
     }
   }
-  createLevel(customLevel);
+  loadLevel(customLevel);
   startTimer();
   game.updateUI();
 });

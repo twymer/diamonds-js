@@ -1,16 +1,6 @@
-function createLevel (customLevel) {
-  var level = [];
+var levels = [];
 
-  if (customLevel) {
-    level[0] = 'Custom';
-    customLevel = customLevel.split(',');
-    for (var i = 0; i < 12; i++) {
-      var row = customLevel.slice(i * 12, (i + 1) * 12);
-      level[i+1] = row.join(' ');
-    }
-  } else {
-    // This will eventually be packed up better or read from file
-    level = [
+levels[0] = [
       'Simpleton',
       'C 0 0 0 0 4 4 0 0 0 0 C',
       'A 0 0 0 A 3 3 A 0 0 0 A',
@@ -24,6 +14,52 @@ function createLevel (customLevel) {
       '0 0 0 B 2 2 2 2 B 0 0 0',
       'A 0 0 0 A 2 2 A 0 0 0 A',
       'C 0 0 0 0 5 5 0 0 0 0 C']
+levels[1] = ['Old Favorite',
+      '0 0 0 0 0 0 0 0 0 0 0 0',
+      '0 0 0 0 1 1 1 1 0 0 0 0',
+      '0 0 0 1 5 5 5 5 1 0 0 0',
+      '0 0 1 9 2 2 2 2 6 1 0 0',
+      '0 C 5 2 B B B B 2 5 C 0',
+      '0 C 5 2 B B B B 2 5 C 0',
+      '0 C 5 2 B B B B 2 5 C 0',
+      '0 C 5 2 B B B B 2 5 C 0',
+      '0 0 1 6 2 2 2 2 9 1 0 0',
+      '0 0 0 1 5 5 5 5 1 0 0 0',
+      '0 0 0 0 1 1 1 1 0 0 0 0',
+      '0 0 0 0 0 0 0 0 0 0 0 F']
+levels[2] = ['Plus Signs',
+      '0 4 0 0 0 0 0 0 0 8 B 0',
+      '4 C 4 0 0 0 0 2 0 0 A 1',
+      '0 4 0 0 0 0 2 C 2 0 A 0',
+      '0 0 0 0 1 0 0 2 0 0 B 1',
+      '0 0 0 1 6 1 0 0 0 0 A 0',
+      '0 0 0 0 1 0 0 0 0 0 A 1',
+      '0 0 0 0 0 0 0 0 0 0 B 0',
+      'B A B A A B A B A 1 A 1',
+      '1 0 1 0 1 0 1 0 1 0 A 0',
+      '0 A A B A A B A A B A 1',
+      '1 0 1 0 1 0 1 0 1 0 1 0',
+      'A B A A B A A B A A A F']
+
+function clearLevel () {
+    Crafty("Ball").destroy();
+    Crafty("Brick").destroy();
+}
+function loadLevel (customLevel) {
+  var level = [];
+
+  // Clear level in case this isn't a new game
+  clearLevel();
+
+  if (customLevel) {
+    level[0] = 'Custom';
+    customLevel = customLevel.split(',');
+    for (var i = 0; i < 12; i++) {
+      var row = customLevel.slice(i * 12, (i + 1) * 12);
+      level[i+1] = row.join(' ');
+    }
+  } else {
+    level = levels[game.currentLevelNumber];
   }
 
   game.levelInfo.name = level[0]

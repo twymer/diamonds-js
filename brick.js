@@ -42,7 +42,7 @@ function onBrickHit (ball) {
     game.updateUI();
     this.destroy();
     if (diamondCount <= 1) {
-      game.gameWon();
+      game.levelWon();
     }
   }
 }
