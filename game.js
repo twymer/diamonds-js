@@ -43,10 +43,14 @@ Crafty.scene("game", function () {
 
   game.levelWon = function () {
     clearInterval(timer);
+    game.score += timeBonus;
 
     game.currentLevelNumber++;
     if (game.currentLevelNumber < levels.length) {
       loadLevel();
+      timeBonus = 2000;
+      startTimer();
+      game.updateUI();
     } else {
       Crafty.e('2D, Canvas, Color')
         .attr({alpha: .8,
@@ -62,7 +66,7 @@ Crafty.scene("game", function () {
                h: 100})
         .textColor("#FFF")
         .css('text-align', 'center')
-        .text("You win! Final score is: " + (game.score + timeBonus) +
+        .text("You win! Final score is: " + game.score +
               "<br>Now what did I do with the other levels...");
     }
   }
