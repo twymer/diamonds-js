@@ -9,21 +9,36 @@ Crafty.scene("edit", function () {
     }
   }
 
-  var clickHandler = function () {
-    var typeName = brickTypeName(activeType);
+  // track whether or not the user is holding the mouse down so we can
+  // let mouseHandler paint tiles
+  var mouseIsDown = false;
+  Crafty.addEvent(this, Crafty.stage.elem, "mousedown", function (e) {
+    mouseIsDown = true;
+  });
+  Crafty.addEvent(this, Crafty.stage.elem, "mouseup", function (e) {
+    mouseIsDown = false;
+  });
 
-    Crafty.e("Brick, 2D, Canvas, Mouse, Color, " + typeName)
-      .color(brickColors[activeType])
-      .attr({w: blockWidth-2, h: blockHeight-2,
-             x: this.x, y: this.y})
-      .brick(activeType, this.board_pos.x, this.board_pos.y)
-      .bind('Click', clickHandler);
+  // this function gets called anytime mouse is moved over a block
+  // allowing the user to "paint" tiles while they are holding the lmb
+  var mouseHandler = function (e) {
+    if (mouseIsDown) {
+      var typeName = brickTypeName(activeType);
 
-    gameBoard[this.board_pos.x + 12 * this.board_pos.y] = activeType;
+      Crafty.e("Brick, 2D, Canvas, Mouse, Color, " + typeName)
+        .color(brickColors[activeType])
+        .attr({w: blockWidth-2, h: blockHeight-2,
+               x: this.x, y: this.y})
+        .brick(activeType, this.board_pos.x, this.board_pos.y)
+        .bind('MouseOver', mouseHandler);
 
-    this.destroy();
+      gameBoard[this.board_pos.x + 12 * this.board_pos.y] = activeType;
+
+      this.destroy();
+    }
   }
 
+  // populate board with gray bricks
   for (var i = 0; i < 12; i++) {
     for (var j = 0; j < 12; j++) {
       Crafty.e("2D, Canvas, Color, Brick, Mouse")
@@ -31,10 +46,11 @@ Crafty.scene("edit", function () {
         .attr({w: blockWidth-2, h: blockHeight-2,
                x: (blockWidth)*j+1, y: (blockHeight)*i+1})
         .brick(0, j, i)
-        .bind('Click', clickHandler);
+        .bind('MouseOver', mouseHandler);
     }
   }
 
+  // draw the block choices
   for (var brickType = 0; brickType < Object.keys(brickTypes).length; brickType++) {
     var typeName = brickTypeName(brickType);
 
