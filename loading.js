@@ -17,12 +17,15 @@ function defineSprites() {
   Crafty.sprite(50, 30, "assets/pinkBrush.png", {
     pinkBrush: [0, 0]
   });
+  Crafty.sprite(50, 30, "assets/orangeBrush.png", {
+    orangeBrush: [0, 0]
+  });
 }
 
 Crafty.scene("loading", function () {
   Crafty.load(['assets/diamond.png', 'assets/ltblue.png', 'assets/death.png',
                'assets/blueBrush.png', 'assets/brownBrush.png', 'assets/pinkBrush.png',
-               'assets/greenBrush.png'], function () {
+               'assets/greenBrush.png', 'assets/orangeBrush.png'], function () {
     Crafty.scene("game");
   });
 });

@@ -1,50 +1,35 @@
 var levels = [];
-
 levels[0] = [
       'Simpleton',
-      'C 0 0 0 0 4 4 0 0 0 0 C',
-      'A 0 0 0 A 3 3 A 0 0 0 A',
-      '0 0 0 B 3 3 3 3 B 0 0 0',
-      '0 8 B 2 2 2 2 2 2 B 6 0',
-      '0 A 1 1 0 0 0 0 1 1 A 0',
-      '0 F 0 0 0 B B 0 0 0 0 0',
-      '0 0 0 0 0 B B 0 0 0 0 0',
-      '0 A 1 1 0 0 0 0 1 1 A 0',
-      '0 7 B 3 3 3 3 3 3 B 9 0',
-      '0 0 0 B 2 2 2 2 B 0 0 0',
-      'A 0 0 0 A 2 2 A 0 0 0 A',
-      'C 0 0 0 0 5 5 0 0 0 0 C']
-levels[1] = ['Old Favorite',
-      '0 0 0 0 0 0 0 0 0 0 0 0',
-      '0 0 0 0 1 1 1 1 0 0 0 0',
-      '0 0 0 1 5 5 5 5 1 0 0 0',
-      '0 0 1 9 2 2 2 2 6 1 0 0',
-      '0 C 5 2 B B B B 2 5 C 0',
-      '0 C 5 2 B B B B 2 5 C 0',
-      '0 C 5 2 B B B B 2 5 C 0',
-      '0 C 5 2 B B B B 2 5 C 0',
-      '0 0 1 6 2 2 2 2 9 1 0 0',
-      '0 0 0 1 5 5 5 5 1 0 0 0',
-      '0 0 0 0 1 1 1 1 0 0 0 0',
-      '0 0 0 0 0 0 0 0 0 0 0 F']
-levels[2] = ['Plus Signs',
-      '0 4 0 0 0 0 0 0 0 8 B 0',
-      '4 C 4 0 0 0 0 2 0 0 A 1',
-      '0 4 0 0 0 0 2 C 2 0 A 0',
-      '0 0 0 0 1 0 0 2 0 0 B 1',
-      '0 0 0 1 6 1 0 0 0 0 A 0',
-      '0 0 0 0 1 0 0 0 0 0 A 1',
-      '0 0 0 0 0 0 0 0 0 0 B 0',
-      'B A B A A B A B A 1 A 1',
-      '1 0 1 0 1 0 1 0 1 0 A 0',
-      '0 A A B A A B A A B A 1',
-      '1 0 1 0 1 0 1 0 1 0 1 0',
-      'A B A A B A A B A A A F']
+      'G 0 0 0 0 5 5 0 0 0 0 G',
+      '1 0 0 0 1 4 4 1 0 0 0 1',
+      '0 0 0 C 4 4 4 4 C 0 0 0',
+      '0 9 C 3 3 3 3 3 3 C 7 0',
+      '0 1 2 2 0 0 0 0 2 2 1 0',
+      '0 Z 0 0 0 C C 0 0 0 0 0',
+      '0 0 0 0 0 C C 0 0 0 0 0',
+      '0 1 2 2 0 0 0 0 2 2 1 0',
+      '0 8 C 4 4 4 4 4 4 C A 0',
+      '0 0 0 C 3 3 3 3 C 0 0 0',
+      '1 0 0 0 1 3 3 1 0 0 0 1',
+      'G 0 0 0 0 6 6 0 0 0 0 G']
 
 function clearLevel () {
     Crafty("Ball").destroy();
     Crafty("Brick").destroy();
 }
+
+function loadCustomLevel(customLevel) {
+  var level = [];
+  level[0] = 'Custom';
+  customLevel = customLevel.split(',');
+  for (var i = 0; i < 12; i++) {
+    var row = customLevel.slice(i * 12, (i + 1) * 12);
+    level[i+1] = row.join(' ');
+  }
+  return level
+}
+
 function loadLevel (customLevel) {
   var level = [];
 
@@ -52,12 +37,7 @@ function loadLevel (customLevel) {
   clearLevel();
 
   if (customLevel) {
-    level[0] = 'Custom';
-    customLevel = customLevel.split(',');
-    for (var i = 0; i < 12; i++) {
-      var row = customLevel.slice(i * 12, (i + 1) * 12);
-      level[i+1] = row.join(' ');
-    }
+    level = loadCustomLevel(customLevel);
   } else {
     level = levels[game.currentLevelNumber];
   }
@@ -69,13 +49,13 @@ function loadLevel (customLevel) {
     for (var j = 0; j < bricks.length; j++) {
       var brickType = 0;
       if (!customLevel) {
-        brickType = parseInt(bricks[j], 16);
+        brickType = parseInt(bricks[j], 36);
       } else {
         brickType = parseInt(bricks[j]);
       }
 
       // If it's the ball, add it and continue as normal
-      if (brickType === 15) {
+      if (brickType === 35) {
         game.addBall(j, i);
         brickType = 0;
       }

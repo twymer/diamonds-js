@@ -5,6 +5,8 @@ Crafty.scene("game", function () {
   var originalBallLocation = null;
   var timeBonus = 2000;
   var timer = null;
+  game.hasKey = false;
+  game.reversed = false;
   game.currentLevelNumber = 0;
 
   game.score = 0;
@@ -76,7 +78,7 @@ Crafty.scene("game", function () {
     originalBallLocation = [xPos, yPos];
 
     Crafty.e("Ball, 2D, Canvas, Color, Collision, Edges, BallControls")
-      .ballControls(1)
+      .ballControls()
       .color(brickColors[brickTypes.ltblue])
       .attr({w: ballSize, h: ballSize,
              // center the ball in the assigned brick area

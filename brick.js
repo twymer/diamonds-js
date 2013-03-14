@@ -7,19 +7,31 @@ function brickTypeName (typeValue) {
 }
 
 function brickIsBrush (type) {
-  return (type > 5 && type < 10);
+  return (type > 6 && type < 12);
 }
 
 function brickIsDiamond (type) {
-  return type == 11;
+  return type == 12;
 }
 
 function brickIsNormal (type) {
-  return (type > 0 && type < 6);
+  return (type > 1 && type < 7);
 }
 
 function brickIsDeath (type) {
-  return type == 12;
+  return type == 16;
+}
+
+function brickIsKey (type) {
+  return type == 13;
+}
+
+function brickIsLock (type) {
+  return type == 14;
+}
+
+function brickIsReverse (type) {
+  return type == 15;
 }
 
 function onBrickHit (ball) {
@@ -33,10 +45,24 @@ function onBrickHit (ball) {
   } else if (brickIsDeath(this.type)) {
     game.resetBall();
     game.updateUI();
+  } else if (brickIsKey(this.type)) {
+    if (!game.hasKey) {
+      game.hasKey = true;
+      this.destroy();
+    }
+  } else if (brickIsLock(this.type)) {
+    if (game.hasKey) {
+      game.hasKey = false;
+      this.destroy();
+    }
+  } else if (brickIsReverse(this.type)) {
+    game.reversed = !game.reversed;
+    Crafty("Ball").ballControls(game.reversed);
+    this.destroy();
   } else if (brickIsDiamond(this.type)) {
     var brickIds = Crafty("Brick");
-    var diamondCount = 0;
 
+    var diamondCount = 0;
     for (var i = 0; i < brickIds.length; i++) {
       if (brickIsNormal(Crafty(brickIds[i]).type)) {
         return;

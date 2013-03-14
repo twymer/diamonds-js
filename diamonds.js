@@ -1,33 +1,40 @@
-// Will be needed later maybe, currently just serving as a reference
 var brickTypes = {
   empty: 0,
-  ltblue: 1,
-  blue: 2,
-  green: 3,
-  brown: 4,
-  pink: 5,
-  blueBrush: 6,
-  greenBrush: 7,
-  brownBrush: 8,
-  pinkBrush: 9,
-  wall: 10,
-  diamond: 11,
-  death: 12 }
+  wall: 1,
+  ltblue: 2,
+  blue: 3,
+  green: 4,
+  brown: 5,
+  pink: 6,
+  blueBrush: 7,
+  greenBrush: 8,
+  brownBrush: 9,
+  pinkBrush: 10,
+  orangeBrush: 11,
+  diamond: 12,
+  key: 13,
+  lock: 14,
+  reverse: 15,
+  death: 16 }
 
 var brickColors = [
-  "#333",
+  "#333333",
+  "#767776",
   "#B1C0D2", // 'ltblue'
   "#587498", // 'blue'
   "#FFD800", // 'green'
   "#587058", // 'brown'
   "#E86850", // 'pink'
+  "#ff0000", // red makes it easy to spot problems with resources :)
   "#ff0000",
   "#ff0000",
   "#ff0000",
   "#ff0000",
-  "#767776",
-  "#32fd97",
-  "#fdfdfd"]
+  "#ff0000",
+  "#ff0000", //key
+  "#00ff00", //lock
+  "#ff00ff", //reverse
+  "#ff0000"]
 
 window.onload = function () {
   blockScale = 10;
