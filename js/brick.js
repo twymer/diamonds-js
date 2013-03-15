@@ -40,18 +40,24 @@ function onBrickHit (ball) {
     game.score += 3;
     game.updateUI();
   } else if (brickIsBrush(this.type)) {
-    // shift type down to change to proper color
-    ball.color(brickColors[this.type - 4]);
+    if (this.type === brickTypes.orangeBrush) {
+      // since there is no orange brick to shift down to for the color
+      // we have to set this one manually
+      ball.color('#FFFFFF');
+    } else {
+      // shift type down to change to proper color
+      ball.color(brickColors[this.type - 4]);
+    }
   } else if (brickIsDeath(this.type)) {
     game.resetBall();
     game.updateUI();
   } else if (brickIsKey(this.type)) {
-    if (!game.hasKey) {
+    if (ball.color() === "#FFFFFF" && !game.hasKey) {
       game.hasKey = true;
       this.destroy();
     }
   } else if (brickIsLock(this.type)) {
-    if (game.hasKey) {
+    if (ball.color() === "#FFFFFF" && game.hasKey) {
       game.hasKey = false;
       this.destroy();
     }
