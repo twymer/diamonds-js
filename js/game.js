@@ -1,7 +1,7 @@
 Crafty.scene("game", function () {
   window.game = window.game || {};
 
-  var lives = 3;
+  var lives = 25;
   var originalBallLocation = null;
   var timeBonus = 2000;
   var timer = null;
