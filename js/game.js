@@ -1,7 +1,6 @@
 Crafty.scene("game", function () {
   window.game = window.game || {};
 
-  var lives = 25;
   var originalBallLocation = null;
   var timeBonus = 2000;
   var timer = null;
@@ -9,6 +8,7 @@ Crafty.scene("game", function () {
   game.reversed = false;
   game.currentLevelNumber = 0;
 
+  game.lives = 6;
   game.score = 0;
   game.levelInfo = {name: ''};
 
@@ -18,10 +18,20 @@ Crafty.scene("game", function () {
                w: Crafty.stage.elem.clientWidth - 15})
 
   game.updateUI = function () {
-    ui.text('Lives: ' + lives +
+    ui.text('Lives: ' + game.lives +
             ' | Level: ' + game.levelInfo.name +
             ' | Score: ' + game.score +
             ' | Time Bonus: ' + timeBonus);
+  }
+
+  game.addPoints = function (points) {
+    oldLivesFromScore = Math.floor(game.score / 10000);
+    game.score += points;
+    newLivesFromScore = Math.floor(game.score / 10000);
+
+    if (newLivesFromScore > oldLivesFromScore) {
+      game.lives++;
+    }
   }
 
   function drawGreyOverlay() {
@@ -51,9 +61,19 @@ Crafty.scene("game", function () {
                 h: 100});
   }
 
+  game.skipToLevel = function(levelNumber) {
+    if (levelNumber < levels.length) {
+      game.currentLevelNumber = levelNumber;
+      loadLevel();
+      timeBonus = 2000;
+      startTimer();
+      game.updateUI();
+    }
+  }
+
   game.levelWon = function () {
     clearInterval(timer);
-    game.score += timeBonus;
+    game.addPoints(timeBonus);
 
     game.currentLevelNumber++;
     if (game.currentLevelNumber < levels.length) {
@@ -90,7 +110,7 @@ Crafty.scene("game", function () {
 
   game.resetBall = function () {
     Crafty(Crafty("Ball")[0]).destroy();
-    if (--lives > 0) {
+    if (--game.lives > 0) {
       game.addBall(originalBallLocation[0], originalBallLocation[1]);
     } else {
       game.gameOver();

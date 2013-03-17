@@ -21,8 +21,8 @@ Controls
 --------
 
 * Left and right arrow keys to move
-* E - Opens custom level editor (still a work in progress)
-* D - Delete any existing custom levels and restart game
+* E -- Opens custom level editor (still a work in progress)
+* D -- Delete any existing custom levels and restart game
 
 Instructions
 ------------
@@ -31,4 +31,15 @@ The goal of Diamonds is to clear all of the diamond blocks. In order to be able 
 
 Other than color blocks, later levels feature lock, key and reverse blocks. To break a key or lock you have to touch the appropriate paintbrush first. The reverse blocks can be taken no matter what color you are.
 
+Every 10,000 points you receive a new life.
+
 Good luck!
+
+Cheater cheater pumpkin eater?
+------------------------------
+
+Okay, like I said, the game was/is **hard**. The original game had like 75 levels and while <s>procrastinating</s> researching I rarely got past level 15. So here are some <s>lame</s> helpful ways to cheat if you know how to get to your Javascript console.
+
+* `game.skipLevel();` -- Skip the current level (you even get to keep the time bonus here)
+* `game.skipToLevel(number);` -- Jump to a given level number (zero indexed)
+* `game.lives = 9001;` -- It's over 9000!

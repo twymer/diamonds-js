@@ -37,7 +37,7 @@ function brickIsReverse (type) {
 function onBrickHit (ball) {
   if (ball.color() === this.color()) {
     this.destroy();
-    game.score += 3;
+    game.addPoints(3);
     game.updateUI();
   } else if (brickIsBrush(this.type)) {
     if (this.type === brickTypes.orangeBrush) {
@@ -78,7 +78,7 @@ function onBrickHit (ball) {
       }
     }
 
-    game.score += 100;
+    game.addPoints(100);
     game.updateUI();
     this.destroy();
     if (diamondCount <= 1) {
