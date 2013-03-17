@@ -8,30 +8,71 @@ Crafty.c('Ball', {
 
     var brick = hit.obj;
 
-    brick.onHit(this);
+    ballLeft = this.x;
+    ballRight = this.x + this.w;
+    ballTop = this.y;
+    ballBottom = this.y + this.h;
 
-    var dy = brick.y - this.y;
-    if (this.centerY < brick.centerY) {
-      dy -= this.h;
-    } else {
-      dy += brick.h;
+    oldBallLeft = this.prevX;
+    oldBallRight = this.prevX + this.w;
+    oldBallTop = this.prevY;
+    oldBallBottom = this.prevY + this.h;
+
+    brickLeft = brick.x;
+    brickRight = brick.x + brick.w;
+    brickTop = brick.y;
+    brickBottom = brick.y + brick.h;
+
+    var biggestCollision = 0;
+    var horizontalHit = false;
+    if (ballRight > brickLeft && ballLeft < brickLeft) { // from left
+      if (oldBallRight < brickLeft) {
+        horizontalHit = true;
+        this.x = this.prevX;
+        this.triggerBounce(1);
+      }
+    }
+    if (ballLeft < brickRight && ballRight > brickRight) { // from right
+      if (oldBallLeft > brickRight) {
+        horizontalHit = true;
+        this.x = this.prevX;
+        this.triggerBounce(-1);
+      }
+    }
+    if (!horizontalHit) {
+      this.y = this.prevY;
+      this.vel.y *= -1;
     }
 
-    this.prevY = this.y;
-    this.vel.y *= -1;
+    // Do brick hit last so that the bounce timer is activated
+    // before we attempt to destroy it and the ball
+    brick.onHit(this);
   },
 
   checkOutOfBounds: function () {
-    if (this.y < 0 || this.y + ballSize > maxVerticalBlocks * blockHeight) {
+    if (this.y < 0 || this.y + this.h > maxVerticalBlocks * blockHeight) {
       this.y = this.prevY;
       this.vel.y *= -1;
+    }
+
+    if (this.x < 0) {
+      this.x = this.prevX;
+      this.triggerBounce(-1);
+    } else if (this.x + this.w > maxHorizontalBlocks * blockWidth) {
+      this.x = this.prevX;
+      this.triggerBounce(1);
     }
   },
 
   enterFrame: function () {
+    this.prevX = this.x;
     this.prevY = this.y;
 
     this.y += this.vel.y;
+
+    if (this.bounceDir !== 0) {
+      this.x += 5 * this.bounceDir;
+    }
 
     this.checkBrickCollision();
     this.checkOutOfBounds();
@@ -39,23 +80,35 @@ Crafty.c('Ball', {
 
   init: function () {
     this.requires('Ball, 2D, Canvas, Color, Collision, Edges');
+
+    // on destroy, make sure the timer is turned off
+    this.bind('Remove', function () {
+      if (this.bounceTimer) {
+        clearInterval(this.bounceTimer);
+      }
+    });
+  },
+
+  triggerBounce: function (previousDir) {
+    this.multiway().disableControl();
+    this.bounceDir = previousDir * -1;
+    var self = this;
+    this.bounceTimer = setTimeout(function () {
+                         self.bounceDir = 0;
+                         self.ballControls();
+    }, 60);
   },
 
   ball: function () {
     return this.attr({
+      bounceDir: 0,
       vel: {
         y: 5
       }
     })
     .bind('EnterFrame', this.enterFrame)
     .bind('Moved', function (from) {
-      brick = this.hit('Brick')[0];
-      if (brick || this.x < 0 || this.x + ballSize > maxHorizontalBlocks * blockWidth) {
-        if (brick) {
-          brick.obj.onHit(this);
-        }
-        this.attr({x: from.x});
-      }
+      this.checkBrickCollision();
     });
   }
 });
