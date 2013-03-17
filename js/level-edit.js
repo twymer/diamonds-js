@@ -71,7 +71,29 @@ Crafty.scene("edit", function () {
       .collision()
       .bind('Click', function (e) {
         activeType = this.type;
+        updateHighlight();
       });
+  }
+
+  var updateHighlight = function () {
+    Crafty('Highlight').destroy();
+
+    // Crafty has trouble cleaning up custom canvas elements so
+    // I use a black screen to wipe those messy areas clean
+    var x = Crafty.e('2D, Canvas, Color')
+      .color("#000")
+      .attr({x: 0, y: blockHeight * 11,
+             w: Crafty.stage.elem.clientWidth, h: blockWidth * 3,
+             z: 100})
+
+    // draw a highlight around the active box
+    Crafty.e('2D, Canvas, Highlight')
+      .attr({x: blockHeight * (activeType) * 1.05 + 4,
+             h: blockWidth - 2, w: blockHeight,
+             y: blockHeight * 12, z: 15})
+      .Highlight()
+
+    x.destroy();
   }
 
   Crafty.e("2D, DOM, Mouse, Text")
@@ -91,7 +113,36 @@ Crafty.scene("edit", function () {
         Crafty.scene('game');
       } else {
         // TODO: Show an error I guess?
-        // should have checked this before letting them come to this page
+        Crafty.scene('game');
       }
     });
+
+  Crafty.c("Highlight", {
+    Highlight: function () {
+      return this;
+    },
+
+    ready: true,
+
+    init: function () {
+      this.requires('2D, Canvas');
+
+      this.bind("Draw", function (e) {
+        this._draw(e.ctx, e.pos);
+      });
+    },
+
+    _draw: function (ctx, po) {
+      ctx.strokeStyle = "#FFFFFF";
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(po._x, po._y);
+      ctx.lineTo(po._x + po._w, po._y);
+      ctx.lineTo(po._x + po._w, po._y + po._h);
+      ctx.lineTo(po._x, po._y + po._h);
+      // Go just a little past to make it connect
+      ctx.lineTo(po._x, po._y - 1.5);
+      ctx.stroke();
+    }
+  });
 });
