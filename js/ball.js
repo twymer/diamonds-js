@@ -67,9 +67,9 @@ Crafty.c("BallControls", {
 
   ballControls: function (isReversed) {
     if (!isReversed) {
-      this.multiway(4, {RIGHT_ARROW: 0, LEFT_ARROW: 180});
+      this.multiway(5, {RIGHT_ARROW: 0, LEFT_ARROW: 180});
     } else {
-      this.multiway(4, {RIGHT_ARROW: 180, LEFT_ARROW: 0});
+      this.multiway(5, {RIGHT_ARROW: 180, LEFT_ARROW: 0});
     }
 
     return this;
