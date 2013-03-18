@@ -95,7 +95,7 @@ Crafty.c('Ball', {
     var self = this;
     this.bounceTimer = setTimeout(function () {
                          self.bounceDir = 0;
-                         self.ballControls();
+                         self.ballControls(game.reversed);
     }, 60);
   },
 
