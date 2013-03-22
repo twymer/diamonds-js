@@ -35,6 +35,12 @@ Crafty.scene("game", function () {
     game.ball.targetX = null;
   });
 
+  Crafty.addEvent(this, Crafty.stage.elem, "mousemove", function (e) {
+    if (game.ball.targetX != null) {
+      game.ball.targetX = e.layerX;
+    }
+  });
+
   game.addPoints = function (points) {
     oldLivesFromScore = Math.floor(game.score / 10000);
     game.score += points;
