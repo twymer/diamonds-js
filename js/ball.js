@@ -69,14 +69,18 @@ Crafty.c('Ball', {
     this.prevY = this.y;
 
     this.y += this.vel.y;
+    // check brick collision seperate for y and x movements
+    // to prevent order issues
+    this.checkBrickCollision();
 
     if (this.bounceDir !== 0) {
-      this.x += 5 * this.bounceDir;
+      this.x += this.vel.x * this.bounceDir;
+      this.checkBrickCollision();
     } else if (this.dir !== 0) {
-      this.x += 5 * this.dir;
+      this.x += this.vel.x * this.dir;
+      this.checkBrickCollision();
     }
 
-    this.checkBrickCollision();
     this.checkOutOfBounds();
   },
 
@@ -106,11 +110,13 @@ Crafty.c('Ball', {
       dir: 0,
       bounceDir: 0,
       vel: {
+        x: 5,
         y: 5
       }
     })
     .bind('EnterFrame', this.enterFrame)
     .bind('Moved', function (from) {
+      // check on moved event from multiway
       this.checkBrickCollision();
     });
   }
