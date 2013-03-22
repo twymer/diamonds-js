@@ -50,7 +50,8 @@ Crafty.c('Ball', {
   },
 
   checkOutOfBounds: function () {
-    if (this.y < 0 || this.y + this.h > maxVerticalBlocks * blockHeight) {
+    if (this.y < 0 ||
+        this.y + this.h > maxVerticalBlocks * blockHeight * window.scale) {
       this.y = this.prevY;
       this.vel.y *= -1;
     }
@@ -58,7 +59,7 @@ Crafty.c('Ball', {
     if (this.x < 0) {
       this.x = this.prevX;
       this.triggerBounce(-1);
-    } else if (this.x + this.w > maxHorizontalBlocks * blockWidth) {
+    } else if (this.x + this.w > maxHorizontalBlocks * blockWidth * window.scale) {
       this.x = this.prevX;
       this.triggerBounce(1);
     }
@@ -114,8 +115,8 @@ Crafty.c('Ball', {
       targetX: null,
       bounceDir: 0,
       vel: {
-        x: 5,
-        y: 5
+        x: 5 * window.scale,
+        y: 5 * window.scale
       }
     })
     .bind('EnterFrame', this.enterFrame)
@@ -133,9 +134,9 @@ Crafty.c("BallControls", {
 
   ballControls: function (isReversed) {
     if (!isReversed) {
-      this.multiway(5, {RIGHT_ARROW: 0, LEFT_ARROW: 180});
+      this.multiway(5 * window.scale, {RIGHT_ARROW: 0, LEFT_ARROW: 180});
     } else {
-      this.multiway(5, {RIGHT_ARROW: 180, LEFT_ARROW: 0});
+      this.multiway(5 * window.scale, {RIGHT_ARROW: 180, LEFT_ARROW: 0});
     }
 
     return this;

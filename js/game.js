@@ -117,7 +117,7 @@ Crafty.scene("game", function () {
     game.ball = Crafty.e("Ball, 2D, Canvas, Color, Collision, Edges, BallControls")
                   .ballControls()
                   .color(brickColors[brickTypes.ltblue])
-                  .attr({w: ballSize, h: ballSize,
+                  .attr({w: ballSize * window.scale, h: ballSize * window.scale,
                          // center the ball in the assigned brick area
                          x: xPos * blockWidth + blockWidth / 2 - ballSize / 2,
                          y: yPos * blockHeight - blockHeight / 2 - ballSize / 2,
@@ -161,6 +161,7 @@ Crafty.scene("game", function () {
       document.getElementById('level-string').innerHTML = customLevel;
     }
   }
+
   loadLevel(customLevel);
   startTimer();
   game.updateUI();

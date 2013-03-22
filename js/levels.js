@@ -216,8 +216,11 @@ function loadLevel (customLevel) {
       }
 
       color = brickColors[brickType];
-      brickAttrs = {w: blockWidth-2, h: blockHeight-2,
-                    x: (blockWidth)*j+1, y: (blockHeight) * (i - 1) + 1};
+      console.log(window.scale);
+      brickAttrs = {w: (blockWidth-2) * window.scale,
+                    h: (blockHeight-2) * window.scale,
+                    x: ((blockWidth)*j+1) * window.scale,
+                    y: ((blockHeight) * (i - 1) + 1) * window.scale};
 
       if (brickType === 0) {
         // Currently just drawing blank blocks to keep the grid appearance.

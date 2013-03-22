@@ -46,10 +46,21 @@ window.onload = function () {
 
   ballSize = 14;
 
-  // disable craftys mobile magic
-  Crafty.mobile = false;
+  var defaultWidth = 12 * blockWidth;
+  var defaultHeight = 12 * blockHeight + hudSize;
 
-  Crafty.init(12 * blockWidth, 12 * blockHeight + hudSize);
+  if (Crafty.mobile) {
+    Crafty.init(); // defaults to full screen
+
+    scaleW = Crafty.DOM.window.width / (12 * blockWidth);
+    scaleH = Crafty.DOM.window.height / (12 * blockHeight + hudSize);
+
+    window.scale = Math.min(scaleW, scaleH);
+
+  } else {
+    window.scale = 1;
+    Crafty.init(12 * blockWidth, 12 * blockHeight + hudSize);
+  }
 
   defineSprites();
 
