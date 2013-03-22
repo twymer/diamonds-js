@@ -39,6 +39,12 @@ function onBrickHit (ball) {
     this.destroy();
     game.addPoints(3);
     game.updateUI();
+
+    var counts = countBricks();
+
+    if (counts.diamonds + counts.normals == 0) {
+      game.levelWon();
+    }
   } else if (brickIsBrush(this.type)) {
     if (this.type === brickTypes.orangeBrush) {
       // since there is no orange brick to shift down to for the color
@@ -66,25 +72,37 @@ function onBrickHit (ball) {
     Crafty("Ball").ballControls(game.reversed);
     this.destroy();
   } else if (brickIsDiamond(this.type)) {
-    var brickIds = Crafty("Brick");
+    var counts = countBricks();
 
-    var diamondCount = 0;
-    for (var i = 0; i < brickIds.length; i++) {
-      if (brickIsNormal(Crafty(brickIds[i]).type)) {
-        return;
-      }
-      if (brickIsDiamond(Crafty(brickIds[i]).type)) {
-        diamondCount++;
-      }
-    }
+    if (counts.normals === 0) {
+      game.addPoints(100);
+      game.updateUI();
+      this.destroy();
 
-    game.addPoints(100);
-    game.updateUI();
-    this.destroy();
-    if (diamondCount <= 1) {
-      game.levelWon();
+      // diamond count still has the destroyed diamond in it
+      if (counts.diamonds + counts.normals <= 1) {
+        game.levelWon();
+      }
     }
   }
+}
+
+// Return an object with the count of all brick types
+// that we need counts of (just normal breakable bricks and diamonds)
+function countBricks () {
+  var brickIds = Crafty("Brick");
+  counts = {normals: 0, diamonds: 0};
+
+  for (var i = 0; i < brickIds.length; i++) {
+    if (brickIsNormal(Crafty(brickIds[i]).type)) {
+      counts.normals++;
+    }
+    if (brickIsDiamond(Crafty(brickIds[i]).type)) {
+      counts.diamonds++;
+    }
+  }
+
+  return counts;
 }
 
 Crafty.c('Brick', {
