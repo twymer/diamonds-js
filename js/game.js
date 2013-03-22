@@ -12,16 +12,19 @@ Crafty.scene("game", function () {
   game.score = 0;
   game.levelInfo = {name: ''};
 
-  ui = Crafty.e('2d, DOM, Text')
+  ui = Crafty.e('2D, DOM, Text')
         .attr({x: 15,
-               y: Crafty.stage.elem.clientHeight - 35,
+               y: Crafty.stage.elem.clientHeight - 43,
                w: Crafty.stage.elem.clientWidth - 15})
+        .css('font-size', '16px')
 
   game.updateUI = function () {
-    ui.text('Lives: ' + game.lives +
-            ' | Level: ' + game.levelInfo.name +
+    ui.text('Level: ' + game.levelInfo.name +
+            '<br>' +
+            'Lives: ' + game.lives +
             ' | Score: ' + game.score +
-            ' | Time Bonus: ' + timeBonus);
+            ' | Time Bonus: ' + timeBonus +
+            ' | Key: ' + (game.hasKey ? 'Yes' : 'No'));
   }
 
   game.addPoints = function (points) {
