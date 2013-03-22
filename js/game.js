@@ -30,7 +30,7 @@ Crafty.scene("game", function () {
   Crafty.addEvent(this, Crafty.stage.elem, "mousedown", function (e) {
     // subtract screen offset from click position to have it be a value
     // ranging from zero to stage width
-    if (e.x - Crafty.stage.x < Crafty.stage.elem.clientWidth / 2) {
+    if (e.x - Crafty.stage.x < game.ball.x) {
       game.ball.dir = -1;
     } else {
       game.ball.dir = 1;
