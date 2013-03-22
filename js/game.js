@@ -28,15 +28,11 @@ Crafty.scene("game", function () {
   }
 
   Crafty.addEvent(this, Crafty.stage.elem, "mousedown", function (e) {
-    if (e.layerX < game.ball.x) {
-      game.ball.dir = -1;
-    } else {
-      game.ball.dir = 1;
-    }
+    game.ball.targetX = e.layerX;
   });
 
   Crafty.addEvent(this, Crafty.stage.elem, "mouseup", function (e) {
-    game.ball.dir = 0;
+    game.ball.targetX = null;
   });
 
   game.addPoints = function (points) {

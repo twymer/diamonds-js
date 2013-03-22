@@ -76,9 +76,13 @@ Crafty.c('Ball', {
     if (this.bounceDir !== 0) {
       this.x += this.vel.x * this.bounceDir;
       this.checkBrickCollision();
-    } else if (this.dir !== 0) {
-      this.x += this.vel.x * this.dir;
-      this.checkBrickCollision();
+    } else if (this.targetX !== null) {
+      var distance = this.x - this.targetX;
+
+      if (Math.abs(distance) > 5) {
+        this.x += this.vel.x * ((distance > 0) ? -1 : 1);
+        this.checkBrickCollision();
+      }
     }
 
     this.checkOutOfBounds();
@@ -107,7 +111,7 @@ Crafty.c('Ball', {
 
   ball: function () {
     return this.attr({
-      dir: 0,
+      targetX: null,
       bounceDir: 0,
       vel: {
         x: 5,
