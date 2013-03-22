@@ -46,6 +46,9 @@ window.onload = function () {
 
   ballSize = 14;
 
+  // disable craftys mobile magic
+  Crafty.mobile = false;
+
   Crafty.init(12 * blockWidth, 12 * blockHeight + hudSize);
 
   defineSprites();
