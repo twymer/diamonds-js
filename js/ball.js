@@ -72,6 +72,8 @@ Crafty.c('Ball', {
 
     if (this.bounceDir !== 0) {
       this.x += 5 * this.bounceDir;
+    } else if (this.dir !== 0) {
+      this.x += 5 * this.dir;
     }
 
     this.checkBrickCollision();
@@ -101,6 +103,7 @@ Crafty.c('Ball', {
 
   ball: function () {
     return this.attr({
+      dir: 0,
       bounceDir: 0,
       vel: {
         y: 5

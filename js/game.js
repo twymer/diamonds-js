@@ -27,6 +27,20 @@ Crafty.scene("game", function () {
             ' | Key: ' + (game.hasKey ? 'Yes' : 'No'));
   }
 
+  Crafty.addEvent(this, Crafty.stage.elem, "mousedown", function (e) {
+    // subtract screen offset from click position to have it be a value
+    // ranging from zero to stage width
+    if (e.x - Crafty.stage.x < Crafty.stage.elem.clientWidth / 2) {
+      game.ball.dir = -1;
+    } else {
+      game.ball.dir = 1;
+    }
+  });
+
+  Crafty.addEvent(this, Crafty.stage.elem, "mouseup", function (e) {
+    game.ball.dir = 0;
+  });
+
   game.addPoints = function (points) {
     oldLivesFromScore = Math.floor(game.score / 10000);
     game.score += points;
@@ -100,15 +114,15 @@ Crafty.scene("game", function () {
   game.addBall = function (xPos, yPos) {
     originalBallLocation = [xPos, yPos];
 
-    Crafty.e("Ball, 2D, Canvas, Color, Collision, Edges, BallControls")
-      .ballControls()
-      .color(brickColors[brickTypes.ltblue])
-      .attr({w: ballSize, h: ballSize,
-             // center the ball in the assigned brick area
-             x: xPos * blockWidth + blockWidth / 2 - ballSize / 2,
-             y: yPos * blockHeight - blockHeight / 2 - ballSize / 2,
-             z: 5})
-      .ball();
+    game.ball = Crafty.e("Ball, 2D, Canvas, Color, Collision, Edges, BallControls")
+                  .ballControls()
+                  .color(brickColors[brickTypes.ltblue])
+                  .attr({w: ballSize, h: ballSize,
+                         // center the ball in the assigned brick area
+                         x: xPos * blockWidth + blockWidth / 2 - ballSize / 2,
+                         y: yPos * blockHeight - blockHeight / 2 - ballSize / 2,
+                         z: 5})
+                  .ball();
   }
 
   game.resetBall = function () {
