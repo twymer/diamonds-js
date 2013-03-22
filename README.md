@@ -38,7 +38,7 @@ Good luck!
 Cheater cheater pumpkin eater?
 ------------------------------
 
-Okay, like I said, the game was/is **hard**. The original game had like 75 levels and while <s>procrastinating</s> researching I rarely got past level 15. So here are some <s>lame</s> helpful ways to cheat if you know how to get to your Javascript console.
+Okay, like I said, the game was/is **hard**. The original game had like 75 levels and while procrastinating (researching) I rarely got past level 15. So here are some helpful ways to cheat if you know how to get to your Javascript console.
 
 * `game.skipLevel();` -- Skip the current level (you even get to keep the time bonus here)
 * `game.skipToLevel(number);` -- Jump to a given level number (zero indexed)
