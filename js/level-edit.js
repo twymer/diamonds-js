@@ -18,18 +18,26 @@ Crafty.scene("edit", function () {
   // this function gets called anytime mouse is moved over a block
   // allowing the user to "paint" tiles while they are holding the lmb
   var mouseHandler = function (e) {
-    if (e.type === "click" || e.type === "mousedown" || mouseIsDown) {
+    if (e.type === "mousedown" || mouseIsDown) {
       var typeName = brickTypeName(activeType);
+      var newBrickType = activeType;
+
+      // if user clicked on the same type of block that is active
+      // then remove it instead
+      if (e.type === "mousedown" && activeType === this.type) {
+        typeName = '';
+        newBrickType = 0;
+      }
 
       Crafty.e("Brick, 2D, Canvas, Mouse, Color, " + typeName)
-        .color(brickColors[activeType])
+        .color(brickColors[newBrickType])
         .attr({w: blockWidth-2, h: blockHeight-2,
                x: this.x, y: this.y})
-        .brick(activeType, this.board_pos.x, this.board_pos.y)
+        .brick(newBrickType, this.board_pos.x, this.board_pos.y)
         .bind('MouseDown', mouseHandler)
         .bind('MouseOver', mouseHandler);
 
-      gameBoard[this.board_pos.x + 12 * this.board_pos.y] = activeType;
+      gameBoard[this.board_pos.x + 12 * this.board_pos.y] = newBrickType;
 
       this.destroy();
     }
