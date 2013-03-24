@@ -123,8 +123,8 @@ Crafty.c('Ball', {
       bounceDir: 0,
       active: false,
       vel: {
-        x: 5,
-        y: 5
+        x: Crafty.mobile ? 3 : 5,
+        y: Crafty.mobile ? 3 : 5
       }
     })
     .bind('EnterFrame', this.enterFrame)
@@ -142,9 +142,9 @@ Crafty.c("BallControls", {
 
   ballControls: function (isReversed) {
     if (!isReversed) {
-      this.multiway(5, {RIGHT_ARROW: 0, LEFT_ARROW: 180});
+      this.multiway(this.vel.x, {RIGHT_ARROW: 0, LEFT_ARROW: 180});
     } else {
-      this.multiway(5, {RIGHT_ARROW: 180, LEFT_ARROW: 0});
+      this.multiway(this.vel.x, {RIGHT_ARROW: 180, LEFT_ARROW: 0});
     }
 
     return this;
