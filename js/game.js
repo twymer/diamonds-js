@@ -51,21 +51,42 @@ Crafty.scene("game", function () {
     }
   }
 
-  function drawGreyOverlay() {
-    Crafty.e('2D, Canvas, Color')
-      .attr({alpha: .8,
-             x: 0, y: 0, z: 9,
-             w: Crafty.stage.elem.clientWidth,
-             h: Crafty.stage.elem.clientHeight})
-      .color("#000");
+  // Draw a grey overlay over the whole game board.
+  // Optional parameter alpha to specify opacity.
+  function drawGreyOverlay(alpha) {
+    return Crafty.e('2D, Canvas, Color, Overlay')
+             .attr({alpha: typeof alpha !== 'undefined' ? alpha : .8,
+                    x: 0, y: 0, z: 9,
+                    w: Crafty.stage.elem.clientWidth,
+                    h: Crafty.stage.elem.clientHeight})
+             .color("#000");
   }
 
   function renderText(text, attrs) {
-    Crafty.e('2D, DOM, Text')
-      .attr(attrs)
-      .textColor("#FFF")
-      .css('text-align', 'center')
-      .text(text);
+    return Crafty.e('2D, DOM, Text')
+             .attr(attrs)
+             .textColor("#FFF")
+             .css('text-align', 'center')
+             .text(text);
+  }
+
+  function triggerDelay(callback) {
+    overlayObj = drawGreyOverlay(.4);
+    var text = "Wait for it...";
+
+    textObj = renderText(text, {x: 0,
+                                y: (Crafty.stage.elem.clientHeight - 40) / 2,
+                                z: 10,
+                                w: Crafty.stage.elem.clientWidth,
+                                h: 100});
+
+    setTimeout(function () {
+      overlayObj.destroy();
+      textObj.destroy();
+      game.ball.setActive();
+      game.updateUI();
+      callback();
+    }, 1000);
   }
 
   game.gameOver = function () {
@@ -82,9 +103,10 @@ Crafty.scene("game", function () {
     if (levelNumber < levels.length) {
       game.currentLevelNumber = levelNumber;
       loadLevel();
-      timeBonus = 2000;
-      startTimer();
-      game.updateUI();
+      triggerDelay(function () {
+        timeBonus = 2000;
+        startTimer();
+      });
     }
   }
 
@@ -95,9 +117,10 @@ Crafty.scene("game", function () {
     game.currentLevelNumber++;
     if (game.currentLevelNumber < levels.length) {
       loadLevel();
-      timeBonus = 2000;
-      startTimer();
-      game.updateUI();
+      triggerDelay(function () {
+        timeBonus = 2000;
+        startTimer();
+      });
     } else {
       drawGreyOverlay();
       var text = "You win! Final score is: " + game.score +
@@ -115,7 +138,6 @@ Crafty.scene("game", function () {
     originalBallLocation = [xPos, yPos];
 
     game.ball = Crafty.e("Ball, 2D, Canvas, Color, Collision, Edges, BallControls")
-                  .ballControls()
                   .color(brickColors[brickTypes.ltblue])
                   .attr({w: ballSize, h: ballSize,
                          // center the ball in the assigned brick area
@@ -129,6 +151,9 @@ Crafty.scene("game", function () {
     Crafty(Crafty("Ball")[0]).destroy();
     if (--game.lives > 0) {
       game.addBall(originalBallLocation[0], originalBallLocation[1]);
+      triggerDelay(function () {
+        game.ball.setActive();
+      });
     } else {
       game.gameOver();
     }
@@ -162,6 +187,7 @@ Crafty.scene("game", function () {
     }
   }
   loadLevel(customLevel);
+  game.ball.setActive(); // set ball active right away on first level
   startTimer();
   game.updateUI();
 });

@@ -65,6 +65,9 @@ Crafty.c('Ball', {
   },
 
   enterFrame: function () {
+    // cancel movements if ball isn't active yet
+    if (!this.active) { return; }
+
     this.prevX = this.x;
     this.prevY = this.y;
 
@@ -109,10 +112,16 @@ Crafty.c('Ball', {
     }, 60);
   },
 
+  setActive: function () {
+    this.active = true;
+    this.ballControls();
+  },
+
   ball: function () {
     return this.attr({
       targetX: null,
       bounceDir: 0,
+      active: false,
       vel: {
         x: 5,
         y: 5
