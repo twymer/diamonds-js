@@ -13,7 +13,7 @@ I used the [Crafty.js](http://craftyjs.com/) game library for my game. It's a ve
 Play it
 -------
 
-A (probably) up to date version is on my site at [http://tylerwymer.com/diamonds/index.html](http://tylerwymer.com/diamonds/index.html).
+Diamonds is playable at [http://twymer.github.io/diamonds-js/](http://twymer.github.io/diamonds-js/).
 
 It can also be opened locally as everything needed is included.
 
